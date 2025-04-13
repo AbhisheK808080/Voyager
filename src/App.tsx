@@ -76,7 +76,6 @@ async function fetchPlaces(location: Location, category: string, days: number): 
   }
 }
 
-
 function generateItinerary(attractions: Place[], food: Place[], days: number): string[] {
   const itinerary: string[] = [];
 
@@ -91,19 +90,20 @@ function generateItinerary(attractions: Place[], food: Place[], days: number): s
     const afternoon = dayAttractions[1]?.name || 'Relax at a nearby café or park';
     const lunch = dayFood[0]?.name || 'Local street food';
     const dinner = dayFood[1]?.name || 'Try a local restaurant';
-    const evening = dayAttractions[2]?.name || " Take a walk or catch a local event";
+    const evening = dayAttractions[2]?.name || "Take a walk or catch a local event";
+
     itinerary.push(
-      `
-    🌅 Morning: Visit ${morning}
-    🍽️ Lunch: Enjoy at ${lunch}
-    🏞️ Afternoon: Head to ${afternoon}
-    🍴 Dinner: Dine at ${dinner}
-    🌙 Evening: Visit ${evening}`
+      `🌅 Morning: Visit ${morning}
+🍽️ Lunch: Enjoy at ${lunch}
+🏞️ Afternoon: Head to ${afternoon}
+🍴 Dinner: Dine at ${dinner}
+🌙 Evening: Visit ${evening}`
     );
   }
 
   return itinerary;
 }
+
 interface WeatherDay {
   date: string;
   condition: string;
@@ -221,19 +221,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-300 via-blue-100 to-blue-300 p-4 flex items-center justify-center">
-      <div className="bg-white border rounded-lg shadow-xl w-full max-w-6xl h-[90vh] flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-r from-purple-300 via-blue-100 to-blue-300 p-2 md:p-4 flex items-center justify-center">
+      <div className="bg-white border rounded-lg shadow-xl w-full max-w-6xl sm:h-[90vh] flex flex-col md:flex-row overflow-hidden">
         {/* Chat Section */}
         <div className="md:w-1/2 w-full flex flex-col border-r">
-          <div className="bg-blue-600 p-4 flex items-center gap-2">
+          <div className="bg-blue-600 p-3 md:p-4 flex items-center gap-2">
             <Plane className="text-white" size={24} />
-            <h1 className="text-xl font-semibold text-white">Voyager! Your Travel Assistant</h1>
+            <h1 className="text-lg md:text-xl font-semibold text-white">Voyager! Your Travel Assistant</h1>
           </div>
-          <div className="flex-1 overflow-y-auto px-4 py-2 space-y-4">
+          <div className="flex-1 overflow-y-auto px-3 md:px-4 py-2 space-y-4 max-h-[calc(90vh-160px)]">
             {messages.map((message, index) => (
               <div key={index} className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}>
                 <div className={`max-w-[85%] rounded-lg p-3 ${message.isBot ? 'bg-gray-100 text-gray-800' : 'bg-blue-600 text-white'}`}>
-                  <pre className="whitespace-pre-wrap font-sans">{message.text}</pre>
+                  <pre className="whitespace-pre-wrap font-sans break-words">{message.text}</pre>
 
                   {message.attractions && (
                     <>
@@ -258,17 +258,14 @@ function App() {
                       ))}
                     </>
                   )}
+
                   {message.weather && message.weather.length > 0 && (
                     <>
                       <h4 className="mt-6 text-lg font-semibold text-yellow-700">☀️ 5-Day Weather Forecast</h4>
                       <div className="grid grid-cols-2 gap-4 mt-2 text-sm">
                         {message.weather.map((day: any, i: number) => (
                           <div key={i} className="bg-yellow-50 p-3 rounded border flex gap-3 items-center">
-                            <img
-                              src={`https:${day.icon}`}
-                              alt={day.condition}
-                              className="w-10 h-10"
-                            />
+                            <img src={`https:${day.icon}`} alt={day.condition} className="w-10 h-10" />
                             <div>
                               <p><strong>{new Date(day.date).toLocaleDateString()}</strong></p>
                               <p>{day.condition}</p>
@@ -288,7 +285,7 @@ function App() {
                         Suggested Plan
                       </h4>
 
-                      <div className="mt-4 grid gap-6 sm:grid-cols-1 ">
+                      <div className="mt-4 grid gap-6 sm:grid-cols-1">
                         {message.itinerary.map((dayPlan, i) => (
                           <div
                             key={i}
@@ -300,7 +297,7 @@ function App() {
                               </div>
                               <h5 className="text-lg font-semibold text-purple-700">Day {i + 1}</h5>
                             </div>
-                            <p className="text-gray-700 whitespace-pre-wrap text-sm leading-relaxed font-sans">
+                            <p className="text-gray-700 whitespace-pre-wrap text-sm leading-relaxed font-sans break-words">
                               {dayPlan}
                             </p>
                           </div>
@@ -318,7 +315,7 @@ function App() {
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className="p-4 border-t bg-gray-50">
+          <div className="p-3 md:p-4 border-t bg-gray-50 sticky bottom-0 z-10">
             <div className="flex gap-2">
               <textarea
                 value={input}
@@ -341,7 +338,7 @@ function App() {
         </div>
 
         {/* Map Section */}
-        <div className="md:w-1/2 w-full h-64 md:h-full relative">
+        <div className="md:w-1/2 w-full h-[300px] md:h-full relative">
           {currentLocation ? (
             <MapContainer center={[currentLocation.lat, currentLocation.lon]} zoom={13} style={{ height: '100%', width: '100%' }}>
               <ChangeMapView center={[currentLocation.lat, currentLocation.lon]} />
