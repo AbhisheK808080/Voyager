@@ -225,7 +225,7 @@ function App() {
       <div className="bg-white border rounded-lg shadow-xl w-full max-w-6xl sm:h-[90vh] flex flex-col md:flex-row overflow-hidden">
         {/* Chat Section */}
         <div className="md:w-1/2 w-full flex flex-col border-r">
-          <div className="bg-blue-300 p-3 md:p-4 flex items-center gap-2">
+          <div className="bg-blue-600 p-3 md:p-4 flex items-center gap-2">
             <Plane className="text-white" size={24} />
             <h1 className="text-lg md:text-xl font-semibold text-white">Voyager! Your Travel Assistant</h1>
           </div>
